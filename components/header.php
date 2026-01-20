@@ -1,5 +1,5 @@
 <?php
-// Memulai session jika belum dimulai
+// Memulai session agar sistem login berfungsi
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -32,17 +32,47 @@ if (session_status() === PHP_SESSION_NONE) {
                     <a href="courses.php" class="text-sm font-semibold text-gray-600 hover:text-blue-600 transition">Kursus</a>
                     <a href="about.php" class="text-sm font-semibold text-gray-600 hover:text-blue-600 transition">Tentang</a>
                     <a href="contact.php" class="text-sm font-semibold text-gray-600 hover:text-blue-600 transition">Kontak</a>
+                    
+                    <?php if(isset($_SESSION['user_id'])): ?>
+                        <a href="dashboard.php" class="text-sm font-bold text-slate-800 hover:text-blue-600">Dashboard</a>
+                        <a href="auth/logout.php" class="bg-red-50 text-red-600 px-4 py-2 rounded-xl text-sm font-bold">Keluar</a>
+                    <?php else: ?>
+                        <a href="auth/login.php" class="text-sm font-bold text-gray-600 hover:text-blue-600">Masuk</a>
+                        <a href="auth/register.php" class="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-blue-700 shadow-lg shadow-blue-200 transition">Daftar</a>
+                    <?php endif; ?>
                 </div>
 
-                <div class="flex items-center space-x-4">
+                <button id="menu-btn" class="md:hidden text-slate-800 focus:outline-none">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="mobile-menu" class="hidden md:hidden mt-4 border-t pt-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="index.php" class="text-gray-600 font-semibold hover:text-blue-600">Beranda</a>
+                    <a href="courses.php" class="text-gray-600 font-semibold hover:text-blue-600">Kursus</a>
+                    <a href="about.php" class="text-gray-600 font-semibold hover:text-blue-600">Tentang</a>
+                    <a href="contact.php" class="text-gray-600 font-semibold hover:text-blue-600">Kontak</a>
+                    <hr class="border-gray-100">
                     <?php if(isset($_SESSION['user_id'])): ?>
-                        <a href="dashboard.php" class="text-sm font-bold text-slate-800 hover:text-blue-600 transition">Dashboard</a>
-                        <a href="auth/logout.php" class="bg-red-50 text-red-600 px-5 py-2 rounded-xl text-sm font-bold hover:bg-red-100 transition">Keluar</a>
+                        <a href="dashboard.php" class="text-slate-800 font-bold">Dashboard Saya</a>
+                        <a href="auth/logout.php" class="text-red-600 font-bold">Keluar</a>
                     <?php else: ?>
-                        <a href="auth/login.php" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition">Masuk</a>
-                        <a href="auth/register.php" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 shadow-lg shadow-blue-200 transition">Daftar</a>
+                        <a href="auth/login.php" class="text-blue-600 font-bold">Masuk</a>
+                        <a href="auth/register.php" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-center font-bold">Daftar</a>
                     <?php endif; ?>
                 </div>
             </div>
         </div>
     </nav>
+
+    <script>
+        const btn = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden'); // Menghapus/menambah class 'hidden' saat diklik
+        });
+    </script>
